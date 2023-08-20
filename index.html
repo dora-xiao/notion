@@ -2,17 +2,27 @@
 <html>
 <head>
     <title>dailybanner</title>
+    <style>
+        body {
+            border: 1px solid black; 
+            width: fit-content;
+            background-color: #ffcba4;
+        }
+    </style>
 </head>
 <body>
-    <img src="images/flowerwatercolor.jpg">
     <p id="current_date"></p>
     
     <script>
-        date = new Date();
-        // year = date.getFullYear();
-        month = date.getMonth() + 1;
-        day = date.getDate();
-        document.getElementById("current_date").innerHTML = month + "/" + day;
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const date = new Date();
+        const dayNum = date.getDate();
+        const month = date.getMonth() + 1;
+        const dayOfWeek = dayNames[date.getDay()];
+
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        document.getElementById("current_date").innerHTML = month + "/" + dayNum + " " + dayOfWeek + " " + hour + ":" + minute;
     </script>
 </body>
 </html>
