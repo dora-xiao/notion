@@ -3,27 +3,156 @@
 <head>
     <title>dailybanner</title>
     <style>
+
         body {
-            border: 1px solid black; 
             width: fit-content;
-            background-color: #ffcba4;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
         }
+
+        p {
+            margin: 0;
+        }
+
+        #widget {
+            background-image: url("images/WidgetBackground.jpg");
+            border-radius: 10px;
+            height: 265px;
+            width: 290px;
+            padding: 20px;
+            text-shadow: 0px 0px 6px black;
+        }
+
+        #fulldate {
+            height: 100px;
+        }
+
+        #month {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #date {
+            font-size: 60px;
+            font-weight: bold;
+            line-height: 40px;
+        }
+
+        #day {
+            font-size: 90px;
+            font-weight: bold;
+            text-align: center;
+            font-stretch: condensed;
+            letter-spacing: -5px;
+        }
+
+        #timestamp {
+            float: right;
+            color: black;
+            font-size: 12px;
+            text-shadow: 0px 0px 10px white;
+        }
+
+        #hourlyweather {
+            height: 80px;
+            width: 100%;
+        }
+
+        #dailyweather {
+            height: 80px;
+            width: 100%;
+        }
+
+
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-    <p id="current_date"></p>
+    <div id="widget">
+        <div id="fulldate">
+            <div style="width: 30%; text-align: center; float: left;">
+                <p id="month"></p>
+                <p id="date"></p>
+            </div>
+            <div style="width: 60%; float: left; ">
+                <p id="day"></p>
+            </div>
+        </div>
+        <div id="hourlyweather">
+            Hourly weather placeholder
+        </div>
+        <div id="dailyweather">
+            3-day weather placeholder
+        </div>
+        <p id="timestamp"></p>
+    </div>
+    
     
     <script>
-        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        // Date
+        const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
         const date = new Date();
         const dayNum = date.getDate();
-        const month = date.getMonth() + 1;
+        const monthNum = date.getMonth()+1;
         const dayOfWeek = dayNames[date.getDay()];
+        document.getElementById("month").innerHTML = monthNames[monthNum-1]
+        if(dayNum < 10) {
+            document.getElementById("date").innerHTML = "0" + dayNum 
+        } else {
+            document.getElementById("date").innerHTML = dayNum 
+        }
+        document.getElementById("day").innerHTML = dayOfWeek
 
+        // Timestamp (last refreshed)
+        let timestamp = "Last ";
         const hour = date.getHours();
-        const minute = date.getMinutes();
-        document.getElementById("current_date").innerHTML = month + "/" + dayNum + " " + dayOfWeek + " " + hour + ":" + minute;
+        let minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+        if(hour == 0) {
+            timestamp += 12 + ":" + minute + " am"
+        } else if(hour == 12) {
+            timestamp += 12 + ":" + minute + " pm"
+        } else if(hour > 12) {
+            timestamp += (hour-12) + ":" + minute + " pm"
+        } else {
+            timestamp += hour + ":" + minute + " am"
+        }
+        document.getElementById("timestamp").innerHTML = timestamp
+
+        
+        // Get 3 days of hourly data, show high/low for 3 days + hourly of current day from 8am to 8pm
+        // const apiurl = "http://api.weatherapi.com/v1/forecast.json?key=dbc8c8dcbaf0433083051634232108&q=Pittsburgh&days=3&aqi=no&alerts=no"
+        $.get(apiurl, function(data, status){
+            let test = ""
+            let highlows = []
+            const forecastdays = data["forecast"]["forecastday"]
+            for(let i = 0; i < forecastdays.length; i++) {
+                // highlows.push([forecastdays["day"]["mintemp_f"], forecastdays["day"]["maxtemp_f"]])
+                test += "<br>Min: " + forecastdays[i]["day"]["mintemp_f"] + ";  Max: " + forecastdays[i]["day"]["maxtemp_f"]
+            }
+            
+            let hours = forecastdays[0]["hour"]
+            for(let j = 0; j < hours.length; j++) {
+                test += "<br>Time: " + hours[j]["time"] + ";  Temp: " + hours[j]["temp_f"]
+            }
+            document.getElementById("weather").innerHTML = test;
+        });
+        
     </script>
 </body>
 </html>
+
+
+<!-- <a class="weatherwidget-io" href="https://forecast7.com/en/40d44n80d00/pittsburgh/?unit=us" data-label_1="PITTSBURGH" data-label_2="WEATHER" data-days="3" data-theme="blue-mountains" >PITTSBURGH WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script> -->
+
+
+<!-- https://api.openweathermap.org/data/2.5/forecast?lat=40.45&lon=-79.95&appid=079c7f5a81ed24ebf79b80114e001003 -->
+
+
+
+
 
