@@ -25,6 +25,8 @@
 
         #fulldate {
             height: 100px;
+            margin-left: -5px;
+            margin-top: -5px;
         }
 
         #month {
@@ -41,10 +43,13 @@
 
         #day {
             font-size: 90px;
+            margin-top: -1px;
+            margin-left: -15px;
             font-weight: bold;
+            transform: scale(.8,1);
             text-align: center;
             font-stretch: condensed;
-            letter-spacing: -5px;
+            letter-spacing: 0px;
         }
 
         #timestamp {
@@ -55,17 +60,84 @@
         }
 
         #hourlyweather {
+            float: left;
             height: 80px;
             width: 100%;
         }
 
-        #dailyweather {
+        #hourly {
+            margin: 0px;
+            padding-top: 2px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            float: left;
+            text-shadow: 0px 0px 3px #a3a3a3;
+            border-radius: 5px;
+            background-color: rgba(242, 149, 96, 0.408); 
+        }
+
+        #hourly > p, #current > p {
+            text-align: center;
+            margin: 0px;
+            padding: 0px;
+            width: 47px;
+            float: left;
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        #hourly > div {
+            width: 40px;
+            background-color: rgba(255, 255, 255, 0.686);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            margin-left: 4px;
+            margin-right: 3px;
+            float: left;
+        }
+
+        #current > div {
+            width: 40px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            margin-left: 4px;
+            margin-right: 3px;
+            float: left;
+        }
+
+        #hourly > div > img, #current > div > img {
+            width: 50px;
+            top: -5px;
+            left: -5px;
+            position: relative;
+        }
+
+        #hourly > div > p, #current > div > p {
+            color: rgb(65, 65, 65);
+            text-shadow: none;
+            position: absolute;
+            top: 30px;
+            left: 11px;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 30px;
+            padding-bottom: 5px;
+        }
+
+        #daily {
             height: 80px;
             width: 100%;
         }
-
 
     </style>
+    <script src="https://kit.fontawesome.com/d08efb2ad0.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
@@ -75,21 +147,84 @@
                 <p id="month"></p>
                 <p id="date"></p>
             </div>
-            <div style="width: 60%; float: left; ">
+            <div style="width: 52%; float: left;">
                 <p id="day"></p>
             </div>
+            <div id="current" style="width: 15%; float: left; margin-top: 20px; transform: scale(1.2,1.2)">
+                <div style="height: 60px;">
+                    <img id="currenticon" src="images/weathericons/day/113.png">
+                    <p id="currenttemp">01</p>
+                </div>
+            </div>
+            
         </div>
-        <div id="hourlyweather">
-            Hourly weather placeholder
-        </div>
+        <h3 id="hourly">
+            <!-- <p style="width: 30px !important;"><i class="fa-solid fa-sun fa-lg" style="color: #ffe96a;"></i></p> -->
+            <p>&nbsp;8 <strong style="font-size: 10px;">AM</strong></p>
+            <p>10 <strong style="font-size: 10px;">AM</strong></p>
+            <p>12 <strong style="font-size: 10px;">PM</strong></p>
+            <p>&nbsp;2 <strong style="font-size: 10px;">PM</strong></p>
+            <p>&nbsp;4 <strong style="font-size: 10px;">PM</strong></p>
+            <p>6 <strong style="font-size: 10px;">PM</strong></p>
+            <!-- <i id="moonicon" class="fa-solid fa-moon fa-lg" style="color:#639cff"></i> -->
+            <div>
+                <img src="images/weathericons/day/113.png">
+                <p>12</p>
+            </div>
+            <div>
+                <img src="images/weathericons/day/113.png">
+                <p>34</p>
+            </div>
+            <div>
+                <img src="images/weathericons/day/113.png">
+                <p>56</p>
+            </div>
+            <div>
+                <img src="images/weathericons/day/113.png">
+                <p>78</p>
+            </div>
+            <div>
+                <img src="images/weathericons/day/113.png">
+                <p>91</p>
+            </div>
+            <div style="margin-right: 4px;">
+                <img src="images/weathericons/day/113.png">
+                <p>01</p>
+            </div>
+        </h3>
         <div id="dailyweather">
-            3-day weather placeholder
+            <p id="dailytemp"></p>
         </div>
         <p id="timestamp"></p>
     </div>
     
     
     <script>
+        function toStdTime(hour, minute) {
+            let padminute = (minute < 10 ? "0" : "") + minute;
+            if(hour == 0) {
+                return 12 + ":" + padminute + " am"
+            } else if(hour == 12) {
+                return 12 + ":" + padminute + " pm"
+            } else if(hour > 12) {
+                return (hour-12) + ":" + padminute + " pm"
+            } else {
+                return hour + ":" + padminute + " am"
+            }
+        }
+
+        function toStdHour(hour) {
+            if(hour == 0) {
+                return 12 + " AM"
+            } else if(hour == 12) {
+                return 12 + " PM"
+            } else if(hour > 12) {
+                return (hour-12) + " PM"
+            } else {
+                return hour + " AM"
+            }
+        }
+
         // Date
         const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
         const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -106,20 +241,9 @@
         document.getElementById("day").innerHTML = dayOfWeek
 
         // Timestamp (last refreshed)
-        let timestamp = "Last ";
         const hour = date.getHours();
-        let minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-        if(hour == 0) {
-            timestamp += 12 + ":" + minute + " am"
-        } else if(hour == 12) {
-            timestamp += 12 + ":" + minute + " pm"
-        } else if(hour > 12) {
-            timestamp += (hour-12) + ":" + minute + " pm"
-        } else {
-            timestamp += hour + ":" + minute + " am"
-        }
-        document.getElementById("timestamp").innerHTML = timestamp
-
+        const minute = date.getMinutes()
+        document.getElementById("timestamp").innerHTML = "Last " + toStdTime(hour, minute)
         
         // Get 3 days of hourly data, show high/low for 3 days + hourly of current day from 8am to 8pm
         // const apiurl = "http://api.weatherapi.com/v1/forecast.json?key=dbc8c8dcbaf0433083051634232108&q=Pittsburgh&days=3&aqi=no&alerts=no"
@@ -127,16 +251,17 @@
             let test = ""
             let highlows = []
             const forecastdays = data["forecast"]["forecastday"]
-            for(let i = 0; i < forecastdays.length; i++) {
-                // highlows.push([forecastdays["day"]["mintemp_f"], forecastdays["day"]["maxtemp_f"]])
-                test += "<br>Min: " + forecastdays[i]["day"]["mintemp_f"] + ";  Max: " + forecastdays[i]["day"]["maxtemp_f"]
-            }
+            // for(let i = 0; i < forecastdays.length; i++) {
+            //     // highlows.push([forecastdays["day"]["mintemp_f"], forecastdays["day"]["maxtemp_f"]])
+            //     test += "<br>Min: " + forecastdays[i]["day"]["mintemp_f"] + ";  Max: " + forecastdays[i]["day"]["maxtemp_f"]
+            // }
             
             let hours = forecastdays[0]["hour"]
-            for(let j = 0; j < hours.length; j++) {
-                test += "<br>Time: " + hours[j]["time"] + ";  Temp: " + hours[j]["temp_f"]
+            for(let j = 8; j < 21; j++) {
+                // if(j < )
+                test += toStdHour(j) + " " + Math.round(hours[j]["temp_f"]) + " "
             }
-            document.getElementById("weather").innerHTML = test;
+            document.getElementById("hourlytemp").innerHTML = test;
         });
         
     </script>
