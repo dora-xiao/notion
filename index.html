@@ -32,21 +32,21 @@
         }
 
         #month {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
             margin-top: 10px;
         }
 
         #date {
-            font-size: 60px;
+            font-size: 45px;
             font-weight: bold;
             line-height: 40px;
         }
 
         #day {
-            font-size: 90px;
-            margin-top: -1px;
-            margin-left: -15px;
+            font-size: 75px;
+            margin-top: 0px;
+            margin-left: -25px;
             font-weight: bold;
             transform: scale(.9,1);
             text-align: center;
@@ -55,8 +55,9 @@
         }
 
         #timestamp {
+            margin-top: 2px;
             float: right;
-            color: black;
+            color: rgb(201, 79, 39);
             font-size: 12px;
             text-shadow: 0px 0px 10px white;
         }
@@ -69,6 +70,7 @@
 
         #hourly {
             margin: 0px;
+            margin-top: -15px;
             padding-top: 2px;
             padding-bottom: 5px;
             padding-left: 5px;
@@ -108,8 +110,9 @@
             border-radius: 10px;
             text-align: center;
             position: relative;
-            margin-left: 4px;
+            margin-left: -5px;
             margin-right: 3px;
+            margin-top: -6px;
             float: left;
         }
 
@@ -135,6 +138,46 @@
         #daily {
             height: 80px;
             width: 100%;
+            text-align: center;
+            margin-top: 85px;
+        }
+
+        #daily > div > img {
+            height: 50px;
+            margin-top: -8px;
+        }
+
+        #daily > div > :not(.daylabel) {
+            margin-top: -8px;
+            color: black;
+            font-weight: bold;
+        }
+
+        #daily > div {
+            width: 31%;
+            float: left;
+        }
+
+        .daylabel {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        #next1 {
+            background-color: rgba(242, 149, 96, 0.408); 
+            border-radius: 5px;
+            margin-right: 9px;
+        }
+
+        #next2 {
+            background-color: rgba(242, 149, 96, 0.408); 
+            margin-right: 9px;
+            border-radius: 5px;
+        }
+
+        #next3 {
+            background-color: rgba(242, 149, 96, 0.408); 
+            border-radius: 5px;
         }
 
     </style>
@@ -154,7 +197,7 @@
             <div id="current" style="width: 15%; float: left; margin-top: 20px; transform: scale(1.2,1.2)">
                 <div style="height: 60px;">
                     <img id="currenticon" src="images/weathericons/day/113.png">
-                    <p id="currenttemp">71°</p>
+                    <p id="currenttemp">00°</p>
                 </div>
             </div>
             
@@ -168,33 +211,47 @@
             <p>&nbsp;4 <strong style="font-size: 10px;">PM</strong></p>
             <p>6 <strong style="font-size: 10px;">PM</strong></p>
             <!-- <i id="moonicon" class="fa-solid fa-moon fa-lg" style="color:#639cff"></i> -->
-            <div>
+            <div id="hourly8">
                 <img src="images/weathericons/day/113.png">
-                <p>12°</p>
+                <p>00°</p>
             </div>
-            <div>
+            <div id="hourly10">
                 <img src="images/weathericons/day/113.png">
-                <p>34°</p>
+                <p>00°</p>
             </div>
-            <div>
+            <div id="hourly12">
                 <img src="images/weathericons/day/113.png">
-                <p>56°</p>
+                <p>00°</p>
             </div>
-            <div>
+            <div id="hourly14">
                 <img src="images/weathericons/day/113.png">
-                <p>78°</p>
+                <p>00°</p>
             </div>
-            <div>
+            <div id="hourly16">
                 <img src="images/weathericons/day/113.png">
-                <p>91°</p>
+                <p>00°</p>
             </div>
-            <div style="margin-right: 4px;">
+            <div id="hourly18" style="margin-right: 4px;">
                 <img src="images/weathericons/day/113.png">
-                <p>01°</p>
+                <p>00°</p>
             </div>
         </h3>
-        <div id="dailyweather">
-            <p id="dailytemp"></p>
+        <div id="daily">
+            <div id="next1">
+                <p class="daylabel">Tomorrow</p>
+                <img src="images/weathericons/day/113.png">
+                <p>00° / 00°</p>
+            </div>
+            <div id="next2">
+                <p class="daylabel">Wed</p>
+                <img src="images/weathericons/day/113.png">
+                <p>00° / 00°</p>
+            </div>
+            <div id="next3">
+                <p class="daylabel">Thurs</p>
+                <img src="images/weathericons/day/113.png">
+                <p>00° / 00°</p>
+            </div>
         </div>
         <p id="timestamp"></p>
     </div>
